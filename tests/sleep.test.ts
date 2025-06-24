@@ -9,7 +9,7 @@ describe('sleep', () => {
         jest.useRealTimers() 
     })
 
-    it('should resolve after 500ms pause', async () => {
+    it('1 should resolve after 500ms pause', async () => {
         // Arrange 
         const delayMS = 500
 
@@ -21,20 +21,20 @@ describe('sleep', () => {
         await expect(resultPromise).resolves.toBeUndefined()
     })
 
-    it('should not resolve if timer not advanced', async() => {
+    it('2 should not resolve if timer not advanced', async() => {
         const mockFn = jest.fn()
         sleep(500).then(mockFn)
         
         expect(mockFn).not.toHaveBeenCalled()
     })
 
-    it('should resolve immediately with 0ms delay', async() => {
+    it('3 should resolve immediately with 0ms delay', async() => {
         const resultPromise = sleep(0)
         jest.advanceTimersByTime(0)
         await expect(resultPromise).resolves.toBeUndefined()
     })
 
-    it('should allow concurrent sleep', async() => {
+    it('4 should allow concurrent sleep', async() => {
         const fn1 = jest.fn()
         const fn2 = jest.fn()
 
