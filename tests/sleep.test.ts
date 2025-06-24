@@ -35,20 +35,25 @@ describe('sleep', () => {
     })
 
     it('4 should allow concurrent sleep', async() => {
-        const fn1 = jest.fn()
-        const fn2 = jest.fn()
+        const fn1 = jest.fn() 
+        const fn2 = jest.fn() 
 
-        sleep(1).then(fn1)
-        sleep(300).then(fn2)
+        const p1 = sleep(100).then(fn1)
+        const p2 = sleep(200).then(fn2)
 
-        jest.advanceTimersByTime(1)
-        await Promise.resolve();
+        jest.advanceTimersByTime(100)
+        await Promise.resolve() // option1 
+        // await p1 // option2 
+        // await expect(p1).resolves.toBeUndefined() // option3 
         expect(fn1).toHaveBeenCalledTimes(1)
-        expect(fn2).not.toHaveBeenCalled()
+        expect(fn2).not.toHaveBeenCalled() 
 
-        jest.advanceTimersByTime(299)
-        await Promise.resolve();
+        jest.advanceTimersByTime(100)
+        await Promise.resolve()
+        // await p2
+        // await expect(p2).resolves.toBeUndefined()
         expect(fn2).toHaveBeenCalledTimes(1)
+       
     })
 })
 
