@@ -1,0 +1,19 @@
+# Node dependencies
+node_modules/
+
+# TypeScript output
+dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Optional: MacOS & VSCode artifacts
+.DS_Store
+.vscode/
+
+# Jest / coverage output
+coverage/
+
+# Optional: Env files (if ever used)
+.env
