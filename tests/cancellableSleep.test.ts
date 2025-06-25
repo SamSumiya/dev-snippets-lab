@@ -45,4 +45,37 @@ timeID = setTimeout(() => {...}) // Spy capturs this call
         await expect(p).resolves.toBe('resolved')
         expect(() => cancelFn()).not.toThrow()
     })
+
+    it('should not be able to cancel after resolution', async () => {
+        const {p, cancelFn} = cancellableSleep(500)
+
+        jest.advanceTimersByTime(500)
+        await Promise.resolve()
+
+        expect(() => cancelFn()).not.toThrow()
+        await expect(p).resolves.toBe('resolved')
+    })
+
+    it('should clear Timeout when cancelled', async () => {
+        const spySetTimeout = jest.spyOn(global, 'setTimeout')
+        const spyClearTimeout = jest.spyOn(global, 'clearTimeout')
+        const {p, cancelFn} = cancellableSleep(500)
+
+        // jest.advanceTimersByTime(500)
+        cancelFn()
+        // need to settle microtasks - the rejected promise
+        await expect(p).rejects.toThrow('Cancelled');
+        const timeId = spySetTimeout.mock.results[0].value
+
+        /*
+        1. the arguments: mock.calls
+        2. the return values: mock.results
+        */
+
+        expect(spySetTimeout).toHaveBeenCalledWith(expect.any(Function), 500) 
+        expect(spyClearTimeout).toHaveBeenCalledWith(timeId)
+
+        spyClearTimeout.mockRestore()
+        spySetTimeout.mockRestore()
+    })
 })
