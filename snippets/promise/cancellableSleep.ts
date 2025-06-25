@@ -1,4 +1,4 @@
-function cancellableSleep(delayMS: number): {p: Promise<string>; cancelFn: () => void} {
+export function cancellableSleep(delayMS: number): {p: Promise<string>; cancelFn: () => void} {
     let timeId: NodeJS.Timeout; 
     let rejectFn: (error: Error) => void
 
