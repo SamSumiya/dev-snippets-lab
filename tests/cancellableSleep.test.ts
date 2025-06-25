@@ -10,7 +10,7 @@ describe('cancellableSleep', () => {
         jest.useRealTimers() 
     })
 
-    it('should have something with setTimeout', async() => {
+    it('should call setTimeout with correct delay', async() => {
         const spy = jest.spyOn(global, 'setTimeout')
 
         cancellableSleep(100)
